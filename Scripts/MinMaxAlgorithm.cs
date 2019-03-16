@@ -64,7 +64,7 @@ public class MinMaxAlgorithm : MoveMaker
 
         //If depth is 0 or game has ended
         //Utility function returns int32.MaxValue if game has ended and 0 otherwise
-        if (depth == 0 || (utilityfunc.evaluate(currentState) == Int32.MaxValue))
+        if (depth == 0 || (utilityfunc.evaluate(currentState) == Int32.MaxValue) || utilityfunc.evaluate(currentState) == Int32.MinValue)
         {
             //Evaluate current state
             return (int) evaluator.evaluate(currentState);
