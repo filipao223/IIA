@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System;
+using System.Collections.Generic;
+using UnityEngine;
+using DeepCopyExtensions;
 
 public class EvaluationFunction
 {
@@ -13,28 +15,30 @@ public class EvaluationFunction
 
         //Check our total health
         List<Unit> ourUnits = s.PlayersUnits;
-        float ourHealth = 0.0;
-        foreach (Unit unit in ourUnits){
+        float ourHealth = 0.0F;
+        foreach (Unit unit in ourUnits)
+        {
             ourHealth += unit.hp;
         }
 
         //Check adversary total health
         List<Unit> theirUnits = s.AdversaryUnits;
-        float theirHealth = 0.0;
-        foreach(Unit unit in theirUnits){
+        float theirHealth = 0.0F;
+        foreach (Unit unit in theirUnits)
+        {
             theirHealth += unit.hp;
         }
 
         float healthScore = ourHealth - theirHealth;
 
         //Check if we are in attack range of an oponent
-        foreach (Unit unit in ourUnits)
+        /*foreach (Unit unit in ourUnits)
         {
             //Code copied from Unit class, GetAttackable method
             for (int i = 0; i < unit.attackrange.GetLength(0); i++)
             {
-                int checkX = unit.x + attackrange[i, 0];
-                int checkY = unit.y + attackrange[i, 1];
+                int checkX = unit.x + unit.attackrange[i, 0];
+                int checkY = unit.y + unit.attackrange[i, 1];
                 if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
                 {
                     Unit neighbour = state.board[checkX, checkY];
@@ -46,8 +50,8 @@ public class EvaluationFunction
                     }
                 }
             }
-        }
+        }*/
 
-        return 0;
+        return healthScore;
     }
 }

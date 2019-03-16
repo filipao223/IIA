@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System;
-
-public const int MaxValue = 2147483647;
+using System.Collections.Generic;
+using UnityEngine;
+using DeepCopyExtensions;
 
 public class UtilityFunction
 {
@@ -14,13 +14,15 @@ public class UtilityFunction
         /////////////////
 
         List<Unit> theirUnits = s.AdversaryUnits;
-        float theirHealth = 0.0;
-        foreach(Unit unit in theirUnits){
+        float theirHealth = 0.0F;
+        foreach (Unit unit in theirUnits)
+        {
             theirHealth += unit.hp;
         }
 
-        if(theirHealth == 0){
-            return MaxValue;
+        if (theirHealth == 0)
+        {
+            return Int32.MaxValue;
         }
 
         return 0;
