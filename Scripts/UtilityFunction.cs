@@ -25,6 +25,16 @@ public class UtilityFunction
             return Int32.MaxValue;
         }
 
+        List<Unit> ourUnits = s.PlayersUnits;
+        float ourHealth = 0.0F;
+        foreach (Unit unit in ourUnits){
+            ourHealth += unit.hp;
+        }
+
+        if (ourHealth == 0){
+            return Int32.MinValue;
+        }
+
         return 0;
     }
 }
