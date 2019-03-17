@@ -8,7 +8,7 @@ public class MinMaxAlgorithm : MoveMaker
 {
     public EvaluationFunction evaluator;
     private UtilityFunction utilityfunc;
-    public int depth = 5;
+    public int depth = 3;
     private PlayerController MaxPlayer;
     private PlayerController MinPlayer;
 
@@ -106,20 +106,22 @@ public class MinMaxAlgorithm : MoveMaker
         //Generate the possible states available to expand
         foreach (Unit currentUnit in state.PlayersUnits)
         {
-            // Movement States
-            List<Tile> neighbours = currentUnit.GetFreeNeighbours(state);
-            foreach (Tile t in neighbours)
-            {
-                State newState = new State(state, currentUnit, true);
-                newState = MoveUnit(newState, t);
-                states.Add(newState);
-            }
+
             // Attack states
             List<Unit> attackOptions = currentUnit.GetAttackable(state, state.AdversaryUnits);
             foreach (Unit t in attackOptions)
             {
                 State newState = new State(state, currentUnit, false);
                 newState = AttackUnit(newState, t);
+                states.Add(newState);
+            }
+
+            // Movement States
+            List<Tile> neighbours = currentUnit.GetFreeNeighbours(state);
+            foreach (Tile t in neighbours)
+            {
+                State newState = new State(state, currentUnit, true);
+                newState = MoveUnit(newState, t);
                 states.Add(newState);
             }
 

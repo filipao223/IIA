@@ -31,8 +31,11 @@ public class EvaluationFunction
 
         float healthScore = ourHealth - theirHealth;
 
+        /* int gridSizeX = s.board.GetLength(0);
+        int gridSizeY = s.board.GetLength(1);
+
         //Check if we are in attack range of an oponent
-        /*foreach (Unit unit in ourUnits)
+        foreach (Unit unit in ourUnits)
         {
             //Code copied from Unit class, GetAttackable method
             for (int i = 0; i < unit.attackrange.GetLength(0); i++)
@@ -41,12 +44,10 @@ public class EvaluationFunction
                 int checkY = unit.y + unit.attackrange[i, 1];
                 if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
                 {
-                    Unit neighbour = state.board[checkX, checkY];
-                    if (neighbour != null && adversary.Contains(neighbour) && !neighbour.IsDead())
+                    Unit neighbour = s.board[checkX, checkY];
+                    if (neighbour != null && theirUnits.Contains(neighbour) && !neighbour.IsDead())
                     {
-                        //Found an oponent
-                        //Change value in some way
-                        //Possibly save which unit has oponents
+                        healthScore = healthScore * 5;
                     }
                 }
             }
