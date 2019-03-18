@@ -19,6 +19,11 @@ public class EvaluationFunction
         foreach (Unit unit in ourUnits)
         {
             ourHealth += unit.hp;
+            Tuple<float, float> tuple = unit.GetBonus(s.board,ourUnits);
+            //verifica se está perto de um warrior ou protector e valoriza isso
+            if(tuple.Item1 != 0 || tuple.Item2 != 0){
+                ourHealth = ourHealth * 1.001f;
+            }
         }
 
         //Check adversary total health
@@ -31,7 +36,8 @@ public class EvaluationFunction
 
         float healthScore = ourHealth - theirHealth;
 
-        /* int gridSizeX = s.board.GetLength(0);
+
+        int gridSizeX = s.board.GetLength(0);
         int gridSizeY = s.board.GetLength(1);
 
         //Check if we are in attack range of an oponent
@@ -47,11 +53,12 @@ public class EvaluationFunction
                     Unit neighbour = s.board[checkX, checkY];
                     if (neighbour != null && theirUnits.Contains(neighbour) && !neighbour.IsDead())
                     {
-                        healthScore = healthScore * 5;
+                        healthScore *= unit.attack/10;
                     }
+                    //if(unit) //colocar a valorizar o ataque do mage
                 }
             }
-        }*/
+        }
 
         return healthScore;
     }

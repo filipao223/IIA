@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DeepCopyExtensions;
 
+
 public class MinMaxAlgorithm : MoveMaker
 {
     public EvaluationFunction evaluator;
@@ -52,7 +53,7 @@ public class MinMaxAlgorithm : MoveMaker
         {
             int eval = MinMaxValue(newState, depth - 1, true);
             //If depth is original depth, save the current maximum value state
-            if (eval > maxEval) bestState = newState;
+            if (eval >= maxEval) bestState = newState;
             maxEval = Math.Max(maxEval, eval);
         }
 
@@ -107,6 +108,15 @@ public class MinMaxAlgorithm : MoveMaker
         foreach (Unit currentUnit in state.PlayersUnits)
         {
 
+            // Movement States
+            List<Tile> neighbours = currentUnit.GetFreeNeighbours(state);
+            foreach (Tile t in neighbours)
+            {
+                State newState = new State(state, currentUnit, true);
+                newState = MoveUnit(newState, t);
+                states.Add(newState);
+            } 
+
             // Attack states
             List<Unit> attackOptions = currentUnit.GetAttackable(state, state.AdversaryUnits);
             foreach (Unit t in attackOptions)
@@ -116,14 +126,6 @@ public class MinMaxAlgorithm : MoveMaker
                 states.Add(newState);
             }
 
-            // Movement States
-            List<Tile> neighbours = currentUnit.GetFreeNeighbours(state);
-            foreach (Tile t in neighbours)
-            {
-                State newState = new State(state, currentUnit, true);
-                newState = MoveUnit(newState, t);
-                states.Add(newState);
-            }
 
         }
 
