@@ -71,6 +71,14 @@ public class MinMaxAlgorithm: MoveMaker
             return (int) evaluator.evaluate(currentState);
         }
 
+        if(utilityfunc.evaluate(currentState) == Int32.MaxValue){
+            return Int32.MaxValue;
+        }
+
+        if(utilityfunc.evaluate(currentState) == Int32.MinValue){
+             return Int32.MinValue;
+        }
+
         if (maximizingPlayer)
         {
             int maxEval = Int32.MinValue;
