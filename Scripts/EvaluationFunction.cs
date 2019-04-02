@@ -34,6 +34,11 @@ public class EvaluationFunction
             theirHealth += unit.hp;
         }
 
+        if (theirHealth == 0)
+        {
+            return Int32.MaxValue;
+        }
+
         float healthScore = ourHealth - theirHealth;
 
 
@@ -59,7 +64,7 @@ public class EvaluationFunction
                     //if(unit) //colocar a valorizar o ataque do mage
                 }
             }
-        }
+        }*/
 
         return healthScore;
     }

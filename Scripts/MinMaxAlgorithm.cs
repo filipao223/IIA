@@ -63,20 +63,20 @@ public class MinMaxAlgorithm: MoveMaker
     public int MinMaxValue(State currentState, int depth, bool maximizingPlayer,int alpha,int beta)
     {
 
-        //If depth is 0 or game has ended
-        //Utility function returns int32.MaxValue if game has ended and 0 otherwise
-        if (depth == 0)
-        {
-            //Evaluate current state
-            return (int) evaluator.evaluate(currentState);
-        }
-
         if(utilityfunc.evaluate(currentState) == Int32.MaxValue){
             return Int32.MaxValue;
         }
 
         if(utilityfunc.evaluate(currentState) == Int32.MinValue){
              return Int32.MinValue;
+        }
+
+        //If depth is 0 or game has ended
+        //Utility function returns int32.MaxValue if game has ended and 0 otherwise
+        if (depth == 0)
+        {
+            //Evaluate current state
+            return (int) evaluator.evaluate(currentState);
         }
 
         if (maximizingPlayer)
