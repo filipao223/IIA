@@ -52,7 +52,7 @@ public class MinMaxAlgorithm: MoveMaker
         {
             int eval = MinMaxValue(newState, depth - 1, true,alpha,beta);
             //If depth is original depth, save the current maximum value state
-            if (eval >= maxEval) bestState = newState;
+            if (eval > maxEval) bestState = newState;
             maxEval = Math.Max(maxEval, eval);
         }
 
