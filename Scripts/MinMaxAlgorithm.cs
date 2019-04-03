@@ -88,6 +88,8 @@ public class MinMaxAlgorithm: MoveMaker
                 //Iterate over all states and evalue them
                 foreach (State newState in allPossibleStates)
                 {
+                    State inv = newState.DeepCopyByExpressionTree();
+                    State aux = new State(inv);
                     int eval = MinMaxValue(newState, depth - 1, false,alpha,beta);
                     //If depth is original depth, save the current maximum value state
                     maxEval = Math.Max(maxEval, eval);
@@ -109,6 +111,8 @@ public class MinMaxAlgorithm: MoveMaker
                 //Iterate over all states and evalue them
                 foreach (State newState in allPossibleStates)
                 {
+                    State inv = newState.DeepCopyByExpressionTree();
+                    State aux = new State(inv);
                     int eval = MinMaxValue(newState, depth - 1, true,alpha,beta);
                     minEval = Math.Min(minEval, eval);
 
