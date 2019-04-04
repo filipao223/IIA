@@ -34,11 +34,6 @@ public class EvaluationFunction
             theirHealth += unit.hp;
         }
 
-        if (theirHealth == 0)
-        {
-            return Int32.MaxValue;
-        }
-
         float healthScore = ourHealth - theirHealth;
 
 
