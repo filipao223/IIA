@@ -52,7 +52,7 @@ public class MinMaxAlgorithm: MoveMaker
         {
             int eval = MinMaxValue(newState, depth - 1, true,alpha,beta);
             //If depth is original depth, save the current maximum value state
-            if (eval > maxEval) bestState = newState;
+            if (eval >= maxEval) bestState = newState;
             maxEval = Math.Max(maxEval, eval);
         }
 
@@ -82,14 +82,14 @@ public class MinMaxAlgorithm: MoveMaker
         if (maximizingPlayer)
         {
             int maxEval = Int32.MinValue;
-            for(int i = 0;i <2;i++){
+            //for(int i = 0;i <2;i++){
                 //Generate all posible states
+                State aux = new State(currentState);
+                //List<State> allPossibleStates = GeneratePossibleStates(aux);
                 List<State> allPossibleStates = GeneratePossibleStates(currentState);
                 //Iterate over all states and evalue them
                 foreach (State newState in allPossibleStates)
                 {
-                    State inv = newState.DeepCopyByExpressionTree();
-                    State aux = new State(inv);
                     int eval = MinMaxValue(newState, depth - 1, false,alpha,beta);
                     //If depth is original depth, save the current maximum value state
                     maxEval = Math.Max(maxEval, eval);
@@ -99,20 +99,20 @@ public class MinMaxAlgorithm: MoveMaker
                         break;
                     }
                 }
-            }
+            //}
             return maxEval;
         }
         else
         {
             int minEval = Int32.MaxValue;
-            for(int i = 0;i <2;i++){
+            //for(int i = 0;i <2;i++){
                 //Generate all posible states
+                State aux = new State(currentState);
+                //List<State> allPossibleStates = GeneratePossibleStates(aux);
                 List<State> allPossibleStates = GeneratePossibleStates(currentState);
                 //Iterate over all states and evalue them
                 foreach (State newState in allPossibleStates)
                 {
-                    State inv = newState.DeepCopyByExpressionTree();
-                    State aux = new State(inv);
                     int eval = MinMaxValue(newState, depth - 1, true,alpha,beta);
                     minEval = Math.Min(minEval, eval);
 
@@ -122,7 +122,7 @@ public class MinMaxAlgorithm: MoveMaker
                         break;
                     }
                 }
-            }
+            //}
             return minEval;
         }
     }
@@ -134,20 +134,20 @@ public class MinMaxAlgorithm: MoveMaker
         //Generate the possible states available to expand
         foreach(Unit currentUnit in state.PlayersUnits)
         {
-            // Attack states
-            List<Unit> attackOptions = currentUnit.GetAttackable(state, state.AdversaryUnits);
-            foreach (Unit t in attackOptions)
-            {
-                State newState = new State(state, currentUnit, false);
-                newState = AttackUnit(newState, t);
-                states.Add(newState);
-            }
             // Movement States
             List<Tile> neighbours = currentUnit.GetFreeNeighbours(state);
             foreach (Tile t in neighbours)
             {
                 State newState = new State(state, currentUnit, true);
                 newState = MoveUnit(newState, t);
+                states.Add(newState);
+            }
+            // Attack states
+            List<Unit> attackOptions = currentUnit.GetAttackable(state, state.AdversaryUnits);
+            foreach (Unit t in attackOptions)
+            {
+                State newState = new State(state, currentUnit, false);
+                newState = AttackUnit(newState, t);
                 states.Add(newState);
             }
 
