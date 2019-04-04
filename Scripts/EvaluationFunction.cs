@@ -21,8 +21,11 @@ public class EvaluationFunction
             ourHealth += unit.hp;
             Tuple<float, float> tuple = unit.GetBonus(s.board,ourUnits);
             //verifica se está perto de um warrior ou protector e valoriza isso
-            if(tuple.Item1 != 0 || tuple.Item2 != 0){
-                ourHealth = ourHealth * 1.1f;
+            if(tuple.Item1 != 0){
+                ourHealth = ourHealth + tuple.Item1;
+            }
+            if(tuple.Item2 != 0){
+                ourHealth = ourHealth + tuple.Item2;
             }
         }
 

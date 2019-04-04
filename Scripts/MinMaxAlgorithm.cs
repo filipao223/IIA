@@ -8,7 +8,7 @@ public class MinMaxAlgorithm: MoveMaker
 {
     public EvaluationFunction evaluator;
     private UtilityFunction utilityfunc; 
-    public int depth = 4;
+    public int depth = 5;
     private PlayerController MaxPlayer;
     private PlayerController MinPlayer;
     
@@ -46,14 +46,20 @@ public class MinMaxAlgorithm: MoveMaker
 
         int maxEval = Int32.MinValue;
         //Generate all posible states
-        List<State> allPossibleStates = GeneratePossibleStates(currentState);
+        State aux = new State(currentState);
+        List<State> allPossibleStates = GeneratePossibleStates(aux);
         //Iterate over all states and evalue them
         foreach (State newState in allPossibleStates)
         {
-            int eval = MinMaxValue(newState, depth - 1, true,alpha,beta);
+            int eval = MinMaxValue(newState, depth - 1, false,alpha,beta);
             //If depth is original depth, save the current maximum value state
             if (eval >= maxEval) bestState = newState;
             maxEval = Math.Max(maxEval, eval);
+            alpha = Math.Max(alpha,maxEval);
+
+            if(beta <= alpha){
+                break;
+            }
         }
 
         return bestState;
