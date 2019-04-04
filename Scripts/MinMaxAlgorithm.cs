@@ -8,7 +8,7 @@ public class MinMaxAlgorithm: MoveMaker
 {
     public EvaluationFunction evaluator;
     private UtilityFunction utilityfunc; 
-    public int depth = 3;
+    public int depth = 4;
     private PlayerController MaxPlayer;
     private PlayerController MinPlayer;
     
@@ -85,8 +85,8 @@ public class MinMaxAlgorithm: MoveMaker
             //for(int i = 0;i <2;i++){
                 //Generate all posible states
                 State aux = new State(currentState);
-                //List<State> allPossibleStates = GeneratePossibleStates(aux);
-                List<State> allPossibleStates = GeneratePossibleStates(currentState);
+                List<State> allPossibleStates = GeneratePossibleStates(aux);
+                //List<State> allPossibleStates = GeneratePossibleStates(currentState);
                 //Iterate over all states and evalue them
                 foreach (State newState in allPossibleStates)
                 {
@@ -108,8 +108,8 @@ public class MinMaxAlgorithm: MoveMaker
             //for(int i = 0;i <2;i++){
                 //Generate all posible states
                 State aux = new State(currentState);
-                //List<State> allPossibleStates = GeneratePossibleStates(aux);
-                List<State> allPossibleStates = GeneratePossibleStates(currentState);
+                List<State> allPossibleStates = GeneratePossibleStates(aux);
+                //List<State> allPossibleStates = GeneratePossibleStates(currentState);
                 //Iterate over all states and evalue them
                 foreach (State newState in allPossibleStates)
                 {
