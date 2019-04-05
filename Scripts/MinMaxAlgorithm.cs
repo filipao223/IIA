@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using DeepCopyExtensions;
 
-public class MinMaxAlgorithm: MoveMaker
+public class MinMaxAlgorithm : MoveMaker
 {
     public EvaluationFunction evaluator;
-    private UtilityFunction utilityfunc; 
+    private UtilityFunction utilityfunc;
     public int depth = 5;
     private PlayerController MaxPlayer;
     private PlayerController MinPlayer;
-    
+
     public MinMaxAlgorithm(PlayerController MaxPlayer, EvaluationFunction eval, UtilityFunction utilf, PlayerController MinPlayer)
     {
         this.MaxPlayer = MaxPlayer;
@@ -23,7 +23,7 @@ public class MinMaxAlgorithm: MoveMaker
     public override State MakeMove()
     {
         // The move is decided by the selected state
-        return GenerateNewState(); 
+        return GenerateNewState();
     }
 
     private State GenerateNewState()
@@ -31,12 +31,12 @@ public class MinMaxAlgorithm: MoveMaker
         // Creates initial state
         State newState = new State(this.MaxPlayer, this.MinPlayer);
         // Call the MinMax implementation
-        State bestMove = MinMax(newState, depth, true,Int32.MinValue,Int32.MaxValue);
+        State bestMove = MinMax(newState, depth, true, Int32.MinValue, Int32.MaxValue);
         // returning the actual state. You should modify this
         return bestMove;
     }
 
-    public State MinMax(State currentState, int depth, bool maximizingPlayer,int alpha,int beta)
+    public State MinMax(State currentState, int depth, bool maximizingPlayer, int alpha, int beta)
     {
         /////////////////////////////
         // You should implement this
@@ -46,35 +46,32 @@ public class MinMaxAlgorithm: MoveMaker
 
         int maxEval = Int32.MinValue;
         //Generate all posible states
-        State aux = new State(currentState);
-        List<State> allPossibleStates = GeneratePossibleStates(aux);
+        //State aux = new State(currentState);
+        List<State> allPossibleStates = GeneratePossibleStates(currentState);
         //Iterate over all states and evalue them
         foreach (State newState in allPossibleStates)
         {
-            int eval = MinMaxValue(newState, depth - 1, false,alpha,beta);
+            int eval = MinMaxValue(newState, depth - 1, true, alpha, beta);
             //If depth is original depth, save the current maximum value state
             if (eval >= maxEval) bestState = newState;
             maxEval = Math.Max(maxEval, eval);
-            alpha = Math.Max(alpha,maxEval);
-
-            if(beta <= alpha){
-                break;
-            }
         }
 
         return bestState;
     }
 
 
-    public int MinMaxValue(State currentState, int depth, bool maximizingPlayer,int alpha,int beta)
+    public int MinMaxValue(State currentState, int depth, bool maximizingPlayer, int alpha, int beta)
     {
 
-        if(utilityfunc.evaluate(currentState) == Int32.MaxValue){
+        if (utilityfunc.evaluate(currentState) == Int32.MaxValue)
+        {
             return Int32.MaxValue;
         }
 
-        if(utilityfunc.evaluate(currentState) == Int32.MinValue){
-             return Int32.MinValue;
+        if (utilityfunc.evaluate(currentState) == Int32.MinValue)
+        {
+            return Int32.MinValue;
         }
 
         //If depth is 0 or game has ended
@@ -82,29 +79,30 @@ public class MinMaxAlgorithm: MoveMaker
         if (depth == 0)
         {
             //Evaluate current state
-            return (int) evaluator.evaluate(currentState);
+            return (int)evaluator.evaluate(currentState);
         }
 
         if (maximizingPlayer)
         {
             int maxEval = Int32.MinValue;
             //for(int i = 0;i <2;i++){
-                //Generate all posible states
-                State aux = new State(currentState);
-                List<State> allPossibleStates = GeneratePossibleStates(aux);
-                //List<State> allPossibleStates = GeneratePossibleStates(currentState);
-                //Iterate over all states and evalue them
-                foreach (State newState in allPossibleStates)
-                {
-                    int eval = MinMaxValue(newState, depth - 1, false,alpha,beta);
-                    //If depth is original depth, save the current maximum value state
-                    maxEval = Math.Max(maxEval, eval);
-                    alpha = Math.Max(alpha,maxEval);
+            //Generate all posible states
+            State aux = new State(currentState);
+            List<State> allPossibleStates = GeneratePossibleStates(aux);
+            //List<State> allPossibleStates = GeneratePossibleStates(currentState);
+            //Iterate over all states and evalue them
+            foreach (State newState in allPossibleStates)
+            {
+                int eval = MinMaxValue(newState, depth - 1, false, alpha, beta);
+                //If depth is original depth, save the current maximum value state
+                maxEval = Math.Max(maxEval, eval);
+                alpha = Math.Max(alpha, maxEval);
 
-                    if(beta <= alpha){
-                        break;
-                    }
+                if (beta <= alpha)
+                {
+                    break;
                 }
+            }
             //}
             return maxEval;
         }
@@ -112,22 +110,23 @@ public class MinMaxAlgorithm: MoveMaker
         {
             int minEval = Int32.MaxValue;
             //for(int i = 0;i <2;i++){
-                //Generate all posible states
-                State aux = new State(currentState);
-                List<State> allPossibleStates = GeneratePossibleStates(aux);
-                //List<State> allPossibleStates = GeneratePossibleStates(currentState);
-                //Iterate over all states and evalue them
-                foreach (State newState in allPossibleStates)
+            //Generate all posible states
+            State aux = new State(currentState);
+            List<State> allPossibleStates = GeneratePossibleStates(aux);
+            //List<State> allPossibleStates = GeneratePossibleStates(currentState);
+            //Iterate over all states and evalue them
+            foreach (State newState in allPossibleStates)
+            {
+                int eval = MinMaxValue(newState, depth - 1, true, alpha, beta);
+                minEval = Math.Min(minEval, eval);
+
+                beta = Math.Min(beta, minEval);
+
+                if (beta <= alpha)
                 {
-                    int eval = MinMaxValue(newState, depth - 1, true,alpha,beta);
-                    minEval = Math.Min(minEval, eval);
-
-                    beta = Math.Min(beta,minEval);
-
-                    if(beta <= alpha){
-                        break;
-                    }
+                    break;
                 }
+            }
             //}
             return minEval;
         }
@@ -138,7 +137,7 @@ public class MinMaxAlgorithm: MoveMaker
     {
         List<State> states = new List<State>();
         //Generate the possible states available to expand
-        foreach(Unit currentUnit in state.PlayersUnits)
+        foreach (Unit currentUnit in state.PlayersUnits)
         {
             // Movement States
             List<Tile> neighbours = currentUnit.GetFreeNeighbours(state);
@@ -167,7 +166,7 @@ public class MinMaxAlgorithm: MoveMaker
         return states;
     }
 
-    private State MoveUnit(State state,  Tile destination)
+    private State MoveUnit(State state, Tile destination)
     {
         Unit currentUnit = state.unitToPermormAction;
         //First: Update Board
