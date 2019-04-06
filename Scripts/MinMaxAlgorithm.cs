@@ -52,6 +52,7 @@ public class MinMaxAlgorithm : MoveMaker
         foreach (State newState in allPossibleStates)
         {
             int eval = MinMaxValue(newState, depth - 1, true, alpha, beta);
+            //int eval = MinMaxValueNoAlpha(newState, depth - 1, true, alpha, beta);
             //If depth is original depth, save the current maximum value state
             if (eval >= maxEval) bestState = newState;
             maxEval = Math.Max(maxEval, eval);
@@ -85,7 +86,6 @@ public class MinMaxAlgorithm : MoveMaker
         if (maximizingPlayer)
         {
             int maxEval = Int32.MinValue;
-            //for(int i = 0;i <2;i++){
             //Generate all posible states
             State aux = new State(currentState);
             List<State> allPossibleStates = GeneratePossibleStates(aux);
@@ -103,13 +103,11 @@ public class MinMaxAlgorithm : MoveMaker
                     break;
                 }
             }
-            //}
             return maxEval;
         }
         else
         {
             int minEval = Int32.MaxValue;
-            //for(int i = 0;i <2;i++){
             //Generate all posible states
             State aux = new State(currentState);
             List<State> allPossibleStates = GeneratePossibleStates(aux);
@@ -127,7 +125,61 @@ public class MinMaxAlgorithm : MoveMaker
                     break;
                 }
             }
-            //}
+            return minEval;
+        }
+    }
+
+    public int MinMaxValueNoAlpha(State currentState, int depth, bool maximizingPlayer, int alpha, int beta)
+    {
+
+        if (utilityfunc.evaluate(currentState) == Int32.MaxValue)
+        {
+            return Int32.MaxValue;
+        }
+
+        if (utilityfunc.evaluate(currentState) == Int32.MinValue)
+        {
+            return Int32.MinValue;
+        }
+
+        //If depth is 0 or game has ended
+        //Utility function returns int32.MaxValue if game has ended and 0 otherwise
+        if (depth == 0)
+        {
+            //Evaluate current state
+            return (int)evaluator.evaluate(currentState);
+        }
+
+        if (maximizingPlayer)
+        {
+            int maxEval = Int32.MinValue;
+            //Generate all posible states
+            State aux = new State(currentState);
+            List<State> allPossibleStates = GeneratePossibleStates(aux);
+            //List<State> allPossibleStates = GeneratePossibleStates(currentState);
+            //Iterate over all states and evalue them
+            foreach (State newState in allPossibleStates)
+            {
+                int eval = MinMaxValue(newState, depth - 1, false, alpha, beta);
+                //If depth is original depth, save the current maximum value state
+                maxEval = Math.Max(maxEval, eval);
+                alpha = Math.Max(alpha, maxEval);
+            }
+            return maxEval;
+        }
+        else
+        {
+            int minEval = Int32.MaxValue;
+            //Generate all posible states
+            State aux = new State(currentState);
+            List<State> allPossibleStates = GeneratePossibleStates(aux);
+            //List<State> allPossibleStates = GeneratePossibleStates(currentState);
+            //Iterate over all states and evalue them
+            foreach (State newState in allPossibleStates)
+            {
+                int eval = MinMaxValue(newState, depth - 1, true, alpha, beta);
+                minEval = Math.Min(minEval, eval);
+            }
             return minEval;
         }
     }
