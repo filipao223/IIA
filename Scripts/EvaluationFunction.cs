@@ -9,15 +9,19 @@ public class EvaluationFunction
     // Do the logic to evaluate the state of the game !
     public float evaluate(State s)
     {
-        /////////////////
-        // You should implement these
-        /////////////////
+        /************************************************
+         * Complexidade:
+         *  Loop 1: O(n) * 2*O(k)
+         *  Loop 2: O(n)
+         *  Total = O(n) * 2*O(k) + O(n) => O(n) (linear)
+         *
+         *************************************************/
 
         //Check our total health
         List<Unit> ourUnits = s.PlayersUnits;
         float ourHealth = 0.0F;
         float theirHealth = 0.0F;
-        foreach (Unit unit in ourUnits)
+        foreach (Unit unit in ourUnits)  // O(n)
         {
             if(unit is Assassin){
                 ourHealth += 0.9f*unit.hp;
@@ -28,7 +32,7 @@ public class EvaluationFunction
             if(unit is Protector || unit is Warrior){
                 ourHealth += 0.5f*unit.hp;
             }
-            Tuple<float, float> tuple = unit.GetBonus(s.board,ourUnits);
+            Tuple<float, float> tuple = unit.GetBonus(s.board,ourUnits); //O(k) <- No maximo, so tem 6 casas onde pode verificar, constante (não depende do numero de unidades (n))
             //verifica se está perto de um warrior ou protector e valoriza isso
             if(tuple.Item1 != 0){
                 if(unit is Assassin){
@@ -55,10 +59,10 @@ public class EvaluationFunction
 
             List<Unit> attackable = new List<Unit>();
 
-            attackable = unit.GetAttackable();
+            attackable = unit.GetAttackable(); //O(k) <- No maximo, so tem 6 casas onde pode atacar, constante (não depende do numero de unidades (n))
 
             if(attackable.Count != 0){
-                       foreach(Unit u in attackable){
+                       foreach(Unit u in attackable){ //O(k) <- No maximo, so tem 6 casas onde pode atacar, constante (não depende do numero de unidades (n))
                            if((unit.attack + unit.attackbonus) >= 2f*(u.attack+u.attackbonus)){
                                theirHealth -= (unit.attack + unit.attackbonus);
                            }
@@ -72,7 +76,7 @@ public class EvaluationFunction
 
         //Check adversary total health
         List<Unit> theirUnits = s.AdversaryUnits;
-        foreach (Unit unit in theirUnits)
+        foreach (Unit unit in theirUnits) //O(n)
         {
             if(unit is Assassin){
                 theirHealth += 0.9f*unit.hp;
