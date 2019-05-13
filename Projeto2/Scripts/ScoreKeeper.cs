@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class ScoreKeeper : MonoBehaviour {
 
     //the score.
-    public float[] score;
+    public int[] score;
     //the game's UI element 
     public Text text; 
 
 	// Use this for initialization
 	void Start () {
-        score = new float[2];
+        score = new int[2];
         //display the score to the screen
         UpdateScoreText();
 
@@ -20,15 +20,15 @@ public class ScoreKeeper : MonoBehaviour {
 
     void UpdateScoreText()
     {
-        string toWrite = "Blue: " + (int)(score[0]) + " \t" + "Red: " + (int)(score[1]);
+        string toWrite = "Blue: " + score[0] + " \t" + "Red: " + score[1];
         text.text = toWrite;
     }
 
     //public method to be called from the Goal script
     public void ScoreGoal(int whichgoal)
     {
-        //add half the score (two colliders)
-        score[whichgoal]+=0.5f;
+        //add one to the score
+        score[whichgoal]++;
         //display the updated score
         UpdateScoreText();
     }

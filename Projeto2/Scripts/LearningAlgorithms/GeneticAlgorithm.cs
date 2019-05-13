@@ -9,8 +9,13 @@ public class GeneticAlgorithm : MetaHeuristic {
 	public bool elitist;
 
 	public override void InitPopulation () {
-		//You should implement the code to initialize the population here
-		throw new System.NotImplementedException ();
+		population = new List<Individual> ();
+		// jncor 
+		while (population.Count < populationSize) {
+			GeneticIndividual new_ind = new GeneticIndividual(topology);
+			new_ind.Initialize ();
+			population.Add (new_ind);
+		}
 	}
 
 	//The Step function assumes that the fitness values of all the individuals in the population have been calculated.

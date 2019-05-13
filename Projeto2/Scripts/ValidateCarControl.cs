@@ -64,13 +64,10 @@ public class ValidateCarControl : MonoBehaviour {
             controllers[0].neuralController = BlueController;
             controllers[0].running = true;
         }
-        if (controllers.Length > 1 && (controllers[1].enabled || (savePathRedPlayer != null && savePathRedPlayer.Trim().Length != 0)))
+        if (controllers[1].enabled)
         {// RedController Controller
             controllers[1].neuralController = RedController;
-            sim.GetComponentsInChildren<CarSimpleController>()[1].enabled = false;
-            controllers[1].enabled = true;
             controllers[1].running = true;
-
         }
 
         return new SimulationInfo (sim, sim.GetComponentInChildren<NeuralController> (),0);

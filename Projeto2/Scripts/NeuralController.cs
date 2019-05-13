@@ -183,16 +183,17 @@ public class NeuralController : MonoBehaviour
 
 
         // get my score
-        GoalsOnMyGoal = (int) ScoreSystem.GetComponent<ScoreKeeper>().score[player];
+        GoalsOnMyGoal = ScoreSystem.GetComponent<ScoreKeeper>().score[player];
         // get adversary score
-        GoalsOnAdversaryGoal = (int)ScoreSystem.GetComponent<ScoreKeeper>().score[player == 0 ? 1 : 0];
+        GoalsOnAdversaryGoal = ScoreSystem.GetComponent<ScoreKeeper>().score[player == 0 ? 1 : 0];
 
 
     }
 
 	public float GetScore() {
         // Fitness function. The code to attribute fitness to individuals should be written here.  
-        float fitness = driveTime * distanceTravelled;
+        //float fitness = driveTime * distanceTravelled;
+        float fitness = (float)(Math.Pow(distanceToBall,-1)) + GoalsOnAdversaryGoal*driveTime;
         return fitness;
 	}
 

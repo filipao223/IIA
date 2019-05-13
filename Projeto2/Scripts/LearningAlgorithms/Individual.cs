@@ -27,6 +27,14 @@ public abstract class Individual {
 		}
 	}
 
+	public float[] Getgenotype(){
+		return this.genotype;
+	}
+
+	public void Setgenotype(int index,float value){
+		this.genotype[index] = value;
+	}
+
 	public bool Evaluated
 	{
 		get { return evaluated;}
