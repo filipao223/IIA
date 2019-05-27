@@ -18,10 +18,38 @@ public class GeneticAlgorithm : MetaHeuristic {
 		}
 	}
 
-	//The Step function assumes that the fitness values of all the individuals in the population have been calculated.
-	public override void Step() {
-		//You should implement the code runs in each generation here
-		throw new System.NotImplementedException ();
-	}
+    //The Step function assumes that the fitness values of all the individuals in the population have been calculated.
+    //The Step function assumes that the fitness values of all the individuals in the population have been calculated.
+    public override void Step()
+    {
+        List<Individual> new_pop = new List<Individual>();
+
+        updateReport(); //called to get some stats
+                        // fills the rest with mutations of the best !
+
+        while (true)
+        {
+            //Select population
+            GeneticSelection selection = new GeneticSelection();
+            List<Individual> best_tournament_ind = selection.selectIndividuals(population, tournamentSize);
+
+            //Crossover
+            best_tournament_ind[0].Crossover(best_tournament_ind[1], crossoverProbability);
+
+            //Mutation
+            best_tournament_ind[0].Mutate(mutationProbability);
+            best_tournament_ind[1].Mutate(mutationProbability);
+
+            new_pop.Add(best_tournament_ind[0]);
+            if (new_pop.Count >= populationSize) break;
+
+            new_pop.Add(best_tournament_ind[1]);
+            if (new_pop.Count >= populationSize) break;
+        }
+
+        population = new_pop;
+
+        generation++;
+    }
 
 }
