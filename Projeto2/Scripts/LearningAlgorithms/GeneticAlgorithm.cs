@@ -7,6 +7,7 @@ public class GeneticAlgorithm : MetaHeuristic {
 	public float crossoverProbability;
 	public int tournamentSize;
 	public bool elitist;
+    public int elite_num;
 
 	public override void InitPopulation () {
 		population = new List<Individual> ();
@@ -26,6 +27,24 @@ public class GeneticAlgorithm : MetaHeuristic {
 
         updateReport(); //called to get some stats
                         // fills the rest with mutations of the best !
+        
+        //Keep some of the old best individuals
+        if (elitist)
+        {
+            int current_elite = 0;
+            while (current_elite < elite_num)
+            {
+                if (new_pop.Count >= populationSize) break;
+                
+                //Add best individual
+                GeneticIndividual best = (GeneticIndividual)overallBest.Clone();
+                new_pop.Add(best);
+                current_elite++;
+
+                //Remove from old population
+                population.Remove(best);
+            }
+        }
 
         while (true)
         {
