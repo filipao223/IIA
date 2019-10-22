@@ -1,5 +1,5 @@
 # IIA
-Projeto de IIA DEI 2018/2019
+Projeto da cadeira Introdução à Inteligência Artificial [IIA] DEI 2018/2019
 
 Realizado por:
 
